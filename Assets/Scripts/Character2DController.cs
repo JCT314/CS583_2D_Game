@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Character2DController : MonoBehaviour
 {
-    private float movementSpeed = 1.5f;
-    private float jumpForce = 3f;
+    private float movementSpeed = 5f;
+    private float jumpForce = 5f;
     private Rigidbody2D _rb;
-    private  Animator _animator;
+    private Animator _animator;
     private SpriteRenderer _spriteRender;
+    private Transform background;
+    private Transform mainCamera;
 
     bool isGrounded;
 
-    [SerializeField]
+    
     Transform groundCheck;
-    [SerializeField]
     Transform groundCheckL;
-    [SerializeField]
     Transform groundCheckR;
 
     // Start is called before the first frame update
@@ -25,12 +25,18 @@ public class Character2DController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRender = GetComponent<SpriteRenderer>();
+        background = GameObject.FindGameObjectWithTag("Background").GetComponent<Transform>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
+        groundCheck = GameObject.Find("GroundCheck").GetComponent<Transform>();
+        groundCheckL = GameObject.Find("GroundCheckL").GetComponent<Transform>();
+        groundCheckR = GameObject.Find("GroundCheckR").GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        background.position = new Vector3(transform.position.x, 0f, 0f);
+        mainCamera.position = new Vector3(transform.position.x, 0f, -10f);
     }
 
     private void FixedUpdate()
