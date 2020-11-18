@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Character2DController : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class Character2DController : MonoBehaviour
     {
         background.position = new Vector3(transform.position.x, 0f, 0f);
         mainCamera.position = new Vector3(transform.position.x, 0f, -10f);
+        
     }
 
     private void FixedUpdate()
@@ -93,5 +95,14 @@ public class Character2DController : MonoBehaviour
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
             _animator.Play("Player_Jump");
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.transform.tag == "Finish")
+        {
+            Destroy(other.gameObject);
+            SceneManager.LoadScene("SampleScene");
+        } 
     }
 }
