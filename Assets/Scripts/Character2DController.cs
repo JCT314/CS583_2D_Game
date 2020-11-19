@@ -36,9 +36,9 @@ public class Character2DController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // have the camera and background follow the player
         background.position = new Vector3(transform.position.x, 0f, 0f);
-        mainCamera.position = new Vector3(transform.position.x, 0f, -10f);
-        
+        mainCamera.position = new Vector3(transform.position.x, 0f, -10f); 
     }
 
     private void FixedUpdate()
@@ -104,5 +104,26 @@ public class Character2DController : MonoBehaviour
             Destroy(other.gameObject);
             SceneManager.LoadScene("SampleScene");
         } 
+        else if(other.transform.tag == "Trap" || other.transform.tag == "Enemy")
+        {
+            Hurt();
+        }
+    }
+
+    private void Hurt()
+    {
+        // move back to the beginning
+        _rb.transform.position = new Vector3(-4f, -2f, 0f);
+        // start playing hurt animation
+        StartCoroutine(playHurtAnimation(.6f));
+    }
+
+    IEnumerator playHurtAnimation(float timeHurt)
+    {
+        // set hit layer's weight to 1 to start hurt animation 
+        _animator.SetLayerWeight(1, 1);
+        yield return new WaitForSeconds(timeHurt);
+        // set hit layer's weight to 0 to endy hurt animation
+        _animator.SetLayerWeight(1, 0);
     }
 }
