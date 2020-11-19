@@ -15,6 +15,7 @@ public class Character2DController : MonoBehaviour
     private Transform mainCamera;
     private PlayerManager playerManager;
     private TextMeshProUGUI lives_info_text;
+    private bool isHit = false;
 
     bool isGrounded;
 
@@ -103,20 +104,28 @@ public class Character2DController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(other.transform.tag == "Finish")
+        if(collision.transform.tag == "Finish")
         {
-            Destroy(other.gameObject);
+            Destroy(collision.gameObject);
             SceneManager.LoadScene("SampleScene");
         } 
-        else if(other.transform.tag == "Trap" || other.transform.tag == "Enemy" || other.transform.name == "Air")
+        else if(collision.transform.tag == "Trap" || collision.transform.tag == "Enemy" || collision.transform.name == "Air" && !isHit)
         {
-            Hurt();
+            loseLife();
+            isHit = true;
         }
     }
 
-    private void Hurt()
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.transform.tag == "Trap" || collision.transform.tag == "Enemy" || collision.transform.name == "Air" && !isHit)
+        {
+            isHit = false;
+        }
+    }
+    private void loseLife()
     {
         // move back to the beginning
         _rb.transform.position = new Vector3(-4f, -2f, 0f);
