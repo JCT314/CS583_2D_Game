@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Character2DController : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class Character2DController : MonoBehaviour
     private SpriteRenderer _spriteRender;
     private Transform background;
     private Transform mainCamera;
+    private PlayerManager playerManager;
+    private TextMeshProUGUI lives_info_text;
 
     bool isGrounded;
 
@@ -31,6 +34,8 @@ public class Character2DController : MonoBehaviour
         groundCheck = GameObject.Find("GroundCheck").GetComponent<Transform>();
         groundCheckL = GameObject.Find("GroundCheckL").GetComponent<Transform>();
         groundCheckR = GameObject.Find("GroundCheckR").GetComponent<Transform>();
+        playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        lives_info_text = GameObject.Find("Text_TMP_Lives_Count").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -38,7 +43,8 @@ public class Character2DController : MonoBehaviour
     {
         // have the camera and background follow the player
         background.position = new Vector3(transform.position.x, 0f, 0f);
-        mainCamera.position = new Vector3(transform.position.x, 0f, -10f); 
+        mainCamera.position = new Vector3(transform.position.x, 0f, -10f);
+        lives_info_text.text = "X " + playerManager.player.getLives().ToString();
     }
 
     private void FixedUpdate()
@@ -104,7 +110,7 @@ public class Character2DController : MonoBehaviour
             Destroy(other.gameObject);
             SceneManager.LoadScene("SampleScene");
         } 
-        else if(other.transform.tag == "Trap" || other.transform.tag == "Enemy")
+        else if(other.transform.tag == "Trap" || other.transform.tag == "Enemy" || other.transform.name == "Air")
         {
             Hurt();
         }
@@ -114,6 +120,7 @@ public class Character2DController : MonoBehaviour
     {
         // move back to the beginning
         _rb.transform.position = new Vector3(-4f, -2f, 0f);
+        playerManager.player.subtractLife();
         // start playing hurt animation
         StartCoroutine(playHurtAnimation(.6f));
     }

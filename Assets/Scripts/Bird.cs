@@ -34,7 +34,7 @@ public class Bird : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name == "Ground")
+        if (other.gameObject.name == "Ground" || other.gameObject.name == "Air")
         {
             isFlyingUp = true;
         }
