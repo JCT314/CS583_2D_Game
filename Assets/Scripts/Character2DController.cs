@@ -14,7 +14,7 @@ public class Character2DController : MonoBehaviour
     private Transform background;
     private Transform mainCamera;
     private PlayerManager playerManager;
-    private TextMeshProUGUI lives_info_text;
+    private UIManager uiManager;
     private bool canBeHit = false;
 
     bool isGrounded;
@@ -35,7 +35,7 @@ public class Character2DController : MonoBehaviour
         groundCheckL = GameObject.Find("GroundCheckL").GetComponent<Transform>();
         groundCheckR = GameObject.Find("GroundCheckR").GetComponent<Transform>();
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
-        lives_info_text = GameObject.Find("Text_TMP_Lives_Count").GetComponent<TextMeshProUGUI>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         // start playing spawn animation
         StartCoroutine(playSpawnAnimation(.4f));
     }
@@ -46,7 +46,7 @@ public class Character2DController : MonoBehaviour
         // have the camera and background follow the player
         background.position = new Vector3(transform.position.x, 0f, 0f);
         mainCamera.position = new Vector3(transform.position.x, 0f, -10f);
-        lives_info_text.text = "X " + playerManager.player.getLives().ToString();
+        uiManager.updateHUD();
     }
 
     private void FixedUpdate()
@@ -111,9 +111,9 @@ public class Character2DController : MonoBehaviour
         if (hitTag == "Finish")
         {
             Destroy(collision.gameObject);
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-        else if (hitTag == "Trap")// ||  hitTag == "Boundary")
+        else if (hitTag == "Trap")
         {
             loseLife();
         }
@@ -157,7 +157,14 @@ public class Character2DController : MonoBehaviour
         // move back to the beginning
         _rb.transform.position = new Vector3(-4f, -2f, 0f);
         playerManager.player.subtractLife();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if(playerManager.player.getLives() > 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        else
+        {
+            //uiManager.showGameOverScreen();
+        }
     }
 
     IEnumerator playSpawnAnimation(float timeSpawning)

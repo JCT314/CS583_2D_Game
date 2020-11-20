@@ -6,9 +6,8 @@ using System;
 [SerializeField]
 public class PlayerManager : MonoBehaviour
 {
-    private static PlayerManager _instance;
+    public static PlayerManager _instance { get; private set; }
     public Player player;
-    public static PlayerManager Instance { get { return _instance; } }
     [Serializable]
     public class Player
     {
