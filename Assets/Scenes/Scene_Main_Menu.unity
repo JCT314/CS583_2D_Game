@@ -153,12 +153,11 @@ MonoBehaviour:
   list_Of_Prefabs:
   - {fileID: 2638004792292286227, guid: cc8d80a077433dd4da3ba6bf6cb9192a, type: 3}
   - {fileID: 2288122084954371454, guid: 82e0eebc8d33ac9499830031bc04d112, type: 3}
-  aboutButton: {fileID: 0}
-  mainMenuButton_aboutScene: {fileID: 0}
-  mainMenuButton_settingsScene: {fileID: 0}
-  settingsButton: {fileID: 0}
-  playGameButton: {fileID: 0}
-  quitButton: {fileID: 0}
+  - {fileID: 2288122084954371454, guid: 82e0eebc8d33ac9499830031bc04d112, type: 3}
+  - {fileID: 6439815998169714439, guid: 15961334614c2b540b0f6b8492159cec, type: 3}
+  - {fileID: 6439815998169714439, guid: ba8ade720a01d4242896a51f36a089fa, type: 3}
+  - {fileID: 2288122084954371454, guid: 82e0eebc8d33ac9499830031bc04d112, type: 3}
+  - {fileID: 2288122084954371454, guid: 82e0eebc8d33ac9499830031bc04d112, type: 3}
 --- !u!4 &368044921
 Transform:
   m_ObjectHideFlags: 0

@@ -163,7 +163,7 @@ public class Character2DController : MonoBehaviour
         }
         else
         {
-            //uiManager.showGameOverScreen();
+            uiManager.showGameOverScreen();
         }
     }
 

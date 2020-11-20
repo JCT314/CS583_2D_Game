@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
 
     private Button aboutButton;
     private Button mainMenuButton_aboutScene;
-    private Button mainMenuButton_settingsScene;
+    private Button mainMenuButton_creditsScene;
     private Button settingsButton;
     private Button playGameButton;
     private Button quitButton;
@@ -74,10 +74,10 @@ public class UIManager : MonoBehaviour
         aboutButton.onClick.AddListener(() => loadSceneByNumber(1));
 
         settingsButton = GameObject.Find("Button_About").GetComponent<Button>();
-        settingsButton.onClick.AddListener(() => loadSceneByNumber(4));
+        settingsButton.onClick.AddListener(() => loadSceneByNumber(5));
 
         playGameButton = GameObject.Find("Button_Credits").GetComponent<Button>();
-        playGameButton.onClick.AddListener(() => loadSceneByNumber(5));
+        playGameButton.onClick.AddListener(() => loadSceneByNumber(6));
 
         quitButton = GameObject.Find("Button_Quit").GetComponent<Button>();
         quitButton.onClick.AddListener(() => quitGame(0));
@@ -119,11 +119,29 @@ public class UIManager : MonoBehaviour
         if (index == 4)
         {
             activateCanvas(2);
+            
         }
 
+        // about scene
         if (index == 5)
         {
             activateCanvas(3);
+            if (mainMenuButton_aboutScene == null)
+            {
+                mainMenuButton_aboutScene = GameObject.Find("Button_Main_Menu").GetComponent<Button>();
+                mainMenuButton_aboutScene.onClick.AddListener(() => loadSceneByNumber(0));
+            }
+        }
+
+        // Credits Scene
+        if (index == 6)
+        {
+            activateCanvas(4);
+            if (mainMenuButton_creditsScene == null)
+            {
+                mainMenuButton_creditsScene = GameObject.Find("Button_Main_Menu").GetComponent<Button>();
+                mainMenuButton_creditsScene.onClick.AddListener(() => loadSceneByNumber(0));
+            }
         }
     }
 
@@ -146,5 +164,10 @@ public class UIManager : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    public void showGameOverScreen()
+    {
+        loadSceneByNumber(7);
     }
 }
