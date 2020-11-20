@@ -14,6 +14,7 @@ public class Character2DController : MonoBehaviour
     private Transform background;
     private Transform mainCamera;
     private PlayerManager playerManager;
+    private SoundManager soundManager;
     private UIManager uiManager;
     private bool canBeHit = false;
 
@@ -35,6 +36,7 @@ public class Character2DController : MonoBehaviour
         groundCheckL = GameObject.Find("GroundCheckL").GetComponent<Transform>();
         groundCheckR = GameObject.Find("GroundCheckR").GetComponent<Transform>();
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         // start playing spawn animation
         StartCoroutine(playSpawnAnimation(.4f));
@@ -102,6 +104,7 @@ public class Character2DController : MonoBehaviour
         {
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
             _animator.Play("Player_Jump");
+            soundManager.PlaySound("jump");
         }
     }
 
@@ -110,11 +113,13 @@ public class Character2DController : MonoBehaviour
         string hitTag = collision.transform.tag;
         if (hitTag == "Finish")
         {
+            soundManager.PlaySound("itemCollect");
             Destroy(collision.gameObject);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else if (hitTag == "Trap")
         {
+            soundManager.PlaySound("hit");
             loseLife();
         }
     }
@@ -143,11 +148,13 @@ public class Character2DController : MonoBehaviour
             }
             if(killEnemy)
             {
+                soundManager.PlaySound("jump");
                 enemy.Die();
                 _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
             }
             else
             {
+                soundManager.PlaySound("hit");
                 loseLife();
             }
         }

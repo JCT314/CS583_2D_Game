@@ -22,6 +22,11 @@ public class PlayerManager : MonoBehaviour
         {
             lives--;
         }
+
+        public void resetLives()
+        {
+            lives = 5;
+        }
     };
     
     void Awake()

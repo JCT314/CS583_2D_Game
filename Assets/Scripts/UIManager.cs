@@ -15,10 +15,16 @@ public class UIManager : MonoBehaviour
     private Button aboutButton;
     private Button mainMenuButton_aboutScene;
     private Button mainMenuButton_creditsScene;
+    private Button mainMenuButton_gameWinScene;
+    private Button mainMenuButton_gameLoseScene;
     private Button settingsButton;
-    private Button playGameButton;
-    private Button quitButton;
+    private Button playGameButton_mainScene;
+    private Button playGameButton_gameLoseScene;
+    private Button quitButton_mainScene;
+    private Button quitButton_gameWinScene;
+    private Button quitButton_gameLoseScene;
     private PlayerManager playerManager;
+    private SoundManager soundManager;
     private TextMeshProUGUI level_info_text;
     private TextMeshProUGUI lives_left;
 
@@ -29,6 +35,7 @@ public class UIManager : MonoBehaviour
         if (_instance == null)
         {
             playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+            soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
             uiCanvases = new List<GameObject>();
 
             _instance = this;
@@ -49,7 +56,6 @@ public class UIManager : MonoBehaviour
             {
                 initMainScene();
             }
-
         }
         else
         {
@@ -70,22 +76,30 @@ public class UIManager : MonoBehaviour
         setAllCanvasesToInactive();
         GameObject go = uiCanvases[0];
         go.SetActive(true);
-        aboutButton = GameObject.Find("Button_Play").GetComponent<Button>();
-        aboutButton.onClick.AddListener(() => loadSceneByNumber(1));
+        playGameButton_mainScene = GameObject.Find("Button_Play").GetComponent<Button>();
+        playGameButton_mainScene.onClick.AddListener(() => loadSceneByNumber(1));
 
         settingsButton = GameObject.Find("Button_About").GetComponent<Button>();
         settingsButton.onClick.AddListener(() => loadSceneByNumber(5));
 
-        playGameButton = GameObject.Find("Button_Credits").GetComponent<Button>();
-        playGameButton.onClick.AddListener(() => loadSceneByNumber(6));
+        aboutButton = GameObject.Find("Button_Credits").GetComponent<Button>();
+        aboutButton.onClick.AddListener(() => loadSceneByNumber(6));
 
-        quitButton = GameObject.Find("Button_Quit").GetComponent<Button>();
-        quitButton.onClick.AddListener(() => quitGame(0));
+        quitButton_mainScene = GameObject.Find("Button_Quit").GetComponent<Button>();
+        quitButton_mainScene.onClick.AddListener(() => quitGame(0));
         myActiveScene = "Scene_Main";
     }
 
     public void loadSceneByNumber(int sceneNum)
     {
+        soundManager.PlaySound("buttonClick");
+        SceneManager.LoadScene(sceneNum);
+    }
+
+    public void loadSceneByNumber(int sceneNum, string clipName)
+    {
+        soundManager.PlaySound("buttonClick");
+        soundManager.PlaySound(clipName);
         SceneManager.LoadScene(sceneNum);
     }
 
@@ -108,6 +122,7 @@ public class UIManager : MonoBehaviour
             activateCanvas(0);
         }
 
+        // levels
         if (index == 1 || index == 2 || index == 3)
         {
             activateCanvas(1);
@@ -116,10 +131,23 @@ public class UIManager : MonoBehaviour
             updateHUD(index);
         }
 
+        // game win scene
         if (index == 4)
         {
+            soundManager.PlaySound("gameWinMusic");
             activateCanvas(2);
-            
+            playerManager.player.resetLives();
+            if (mainMenuButton_gameWinScene == null)
+            {
+                mainMenuButton_gameWinScene = GameObject.Find("Button_Main_Menu").GetComponent<Button>();
+                mainMenuButton_gameWinScene.onClick.AddListener(() => loadSceneByNumber(0,"backGroundMusic"));
+            }
+
+            if (quitButton_gameWinScene == null)
+            {
+                quitButton_gameWinScene = GameObject.Find("Button_Quit").GetComponent<Button>();
+                quitButton_gameWinScene.onClick.AddListener(() => quitGame(0));
+            }
         }
 
         // about scene
@@ -142,6 +170,32 @@ public class UIManager : MonoBehaviour
                 mainMenuButton_creditsScene = GameObject.Find("Button_Main_Menu").GetComponent<Button>();
                 mainMenuButton_creditsScene.onClick.AddListener(() => loadSceneByNumber(0));
             }
+        }
+
+        // Game Over Scene
+        if (index == 7)
+        {
+            soundManager.PlaySound("gameOverMusic");
+            activateCanvas(5);
+            if (mainMenuButton_gameLoseScene == null)
+            {
+                mainMenuButton_gameLoseScene = GameObject.Find("Button_Main_Menu").GetComponent<Button>();
+                mainMenuButton_gameLoseScene.onClick.AddListener(() => loadSceneByNumber(0, "backGroundMusic"));
+            }
+
+            if (quitButton_gameLoseScene == null)
+            {
+                quitButton_gameLoseScene = GameObject.Find("Button_Quit").GetComponent<Button>();
+                quitButton_gameLoseScene.onClick.AddListener(() => quitGame(0));
+            }
+
+            if (playGameButton_gameLoseScene == null)
+            {
+                playerManager.player.resetLives();
+                playGameButton_gameLoseScene = GameObject.Find("Button_Play").GetComponent<Button>();
+                playGameButton_gameLoseScene.onClick.AddListener(() => loadSceneByNumber(1, "backGroundMusic"));
+            }
+
         }
     }
 
