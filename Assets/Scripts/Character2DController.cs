@@ -15,10 +15,9 @@ public class Character2DController : MonoBehaviour
     private Transform mainCamera;
     private PlayerManager playerManager;
     private TextMeshProUGUI lives_info_text;
-    private bool isHit = false;
+    private bool canBeHit = false;
 
     bool isGrounded;
-
     
     Transform groundCheck;
     Transform groundCheckL;
@@ -37,6 +36,8 @@ public class Character2DController : MonoBehaviour
         groundCheckR = GameObject.Find("GroundCheckR").GetComponent<Transform>();
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         lives_info_text = GameObject.Find("Text_TMP_Lives_Count").GetComponent<TextMeshProUGUI>();
+        // start playing spawn animation
+        StartCoroutine(playSpawnAnimation(.4f));
     }
 
     // Update is called once per frame
@@ -55,7 +56,7 @@ public class Character2DController : MonoBehaviour
             and the ground checks hits a gameobject that is in the Ground layer. If so then the player
             is grounded. Used to later check if player can jump.
         */
-        if(Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground")) ||
+        if (Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground")) ||
            Physics2D.Linecast(transform.position, groundCheckL.position, 1 << LayerMask.NameToLayer("Ground")) ||
            Physics2D.Linecast(transform.position, groundCheckR.position, 1 << LayerMask.NameToLayer("Ground")))
         {
@@ -106,23 +107,49 @@ public class Character2DController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.transform.tag == "Finish")
+        string hitTag = collision.transform.tag;
+        if (hitTag == "Finish")
         {
             Destroy(collision.gameObject);
             SceneManager.LoadScene("SampleScene");
-        } 
-        else if(collision.transform.tag == "Trap" || collision.transform.tag == "Enemy" || collision.transform.name == "Air" && !isHit)
+        }
+        else if (hitTag == "Trap")// ||  hitTag == "Boundary")
         {
             loseLife();
-            isHit = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Trap" || collision.transform.tag == "Enemy" || collision.transform.name == "Air" && !isHit)
+        string hitTag = collision.transform.tag;
+        if (hitTag == "Trap" || hitTag == "Enemy" || hitTag == "Boundary" && canBeHit)
         {
-            isHit = false;
+            canBeHit = false;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Bird enemy = collision.collider.GetComponent<Bird>();
+        if(enemy != null)
+        {
+            bool killEnemy = true;
+            foreach(ContactPoint2D point in collision.contacts)
+            {
+                if(point.normal.y != 1.0)
+                {
+                    killEnemy = false;
+                }
+            }
+            if(killEnemy)
+            {
+                enemy.Die();
+                _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
+            }
+            else
+            {
+                loseLife();
+            }
         }
     }
     private void loseLife()
@@ -130,16 +157,15 @@ public class Character2DController : MonoBehaviour
         // move back to the beginning
         _rb.transform.position = new Vector3(-4f, -2f, 0f);
         playerManager.player.subtractLife();
-        // start playing hurt animation
-        StartCoroutine(playHurtAnimation(.6f));
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    IEnumerator playHurtAnimation(float timeHurt)
+    IEnumerator playSpawnAnimation(float timeSpawning)
     {
-        // set hit layer's weight to 1 to start hurt animation 
+        // set hit layer's weight to 1 to start spawn animation 
         _animator.SetLayerWeight(1, 1);
-        yield return new WaitForSeconds(timeHurt);
-        // set hit layer's weight to 0 to endy hurt animation
+        yield return new WaitForSeconds(timeSpawning);
+        // set hit layer's weight to 0 to end spawn animation
         _animator.SetLayerWeight(1, 0);
     }
 }
