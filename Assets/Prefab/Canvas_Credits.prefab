@@ -64,13 +64,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Credits
-
-
-    I need to add in the credits here...
-
-
-'
+  m_text: "\t\t\t\t\t   Credits\ncharacter movement script:\nhttps://www.youtube.com/watch?v=44djqUTg2Sg&t=313s\r\n\r\nbackground
+    music:\r\nhttps://opengameart.org/content/battle-theme-a\r\n\r\nbutton click
+    sound:\r\nhttps://opengameart.org/content/click\r\n\r\ngame over music:\r\nhttps://opengameart.org/content/game-over-theme\r\n\r\ngame
+    win music:\r\nhttps://opengameart.org/content/win-music-3\r\n\r\nitem collect
+    sound:\r\nhttps://opengameart.org/content/plingy-coin\r\n\r\nhit sound: \r\nhttps://freesound.org/people/timgormly/sounds/170148/\r\n\r\njump
+    sound: \r\nhttps://opengameart.org/content/platformer-jumping-sounds/\r\n\r\nPixel
+    Adventure 1 Sprite Pack:\r\nhttps://pixelfrog-store.itch.io/pixel-adventure-1\r\n\r\nPixel
+    Adventure Sprite Pack:\r\nhttps://pixelfrog-store.itch.io/pixel-adventure-2\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -97,14 +98,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -314,17 +315,17 @@ PrefabInstance:
     - target: {fileID: 8848915035024346890, guid: 5e6ee7058a4a5654b90fb47510c44238,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -171.99844
+      value: -294
       objectReference: {fileID: 0}
     - target: {fileID: 8848915035024346890, guid: 5e6ee7058a4a5654b90fb47510c44238,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 8848915035024346890, guid: 5e6ee7058a4a5654b90fb47510c44238,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8848915035024346890, guid: 5e6ee7058a4a5654b90fb47510c44238,
         type: 3}

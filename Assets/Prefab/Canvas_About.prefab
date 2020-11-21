@@ -98,8 +98,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -247,6 +247,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6439815998169714435}
     m_Modifications:
+    - target: {fileID: 1047696955652921310, guid: 5e6ee7058a4a5654b90fb47510c44238,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 62
+      objectReference: {fileID: 0}
+    - target: {fileID: 1047696955652921310, guid: 5e6ee7058a4a5654b90fb47510c44238,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 62
+      objectReference: {fileID: 0}
     - target: {fileID: 2564922395556949281, guid: 5e6ee7058a4a5654b90fb47510c44238,
         type: 3}
       propertyPath: m_Name
@@ -320,12 +330,12 @@ PrefabInstance:
     - target: {fileID: 8848915035024346890, guid: 5e6ee7058a4a5654b90fb47510c44238,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 8848915035024346890, guid: 5e6ee7058a4a5654b90fb47510c44238,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8848915035024346890, guid: 5e6ee7058a4a5654b90fb47510c44238,
         type: 3}
