@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class Bird : MonoBehaviour
 {
+    public bool isFlyingVertical;
+    public bool isFlyingHorizontal;
+    public bool isFlyingSquare;
+
     private bool isFlyingUp = true;
+    private bool isFlyingLeft = false;
     private bool isDead = false;
     private float flyingSpeed = 1.5f;
     private Rigidbody2D _rb;
-    private RigidbodyConstraints2D _rbConstraints;
+    private SpriteRenderer _spriteRender;
+
     private Animator _animator;
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _spriteRender = GetComponent<SpriteRenderer>();
+        if(isFlyingHorizontal)
+        {
+            _spriteRender.flipX = true;
+        }
     }
 
     // Update is called once per frame
@@ -22,29 +33,71 @@ public class Bird : MonoBehaviour
     {
         if(!isDead)
         {
-            if(isFlyingUp)
+            if (isFlyingVertical)
             {
-                _rb.velocity = new Vector2(0f,flyingSpeed);
-            }
-            else
-            {
-                _rb.velocity = new Vector2(0f,-flyingSpeed);
+                flyVertical();
             }
 
-            if(_rb.transform.position.y > 0f)
+            if (isFlyingHorizontal)
             {
-                isFlyingUp = false;
+                flyHorizontal();
             }
+        }
+    }
+
+    public void flyVertical()
+    {
+        if (isFlyingUp)
+        {
+            _rb.velocity = new Vector2(0f, flyingSpeed);
+        }
+        else
+        {
+            _rb.velocity = new Vector2(0f, -flyingSpeed);
+        }
+    }
+
+    public void flyHorizontal()
+    {
+        if (isFlyingLeft)
+        {
+            _rb.velocity = new Vector2(-flyingSpeed,0f);
+        }
+        else
+        {
+            _rb.velocity = new Vector2(flyingSpeed,0f);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        string hitTag = collision.transform.tag;
-        string hitName = collision.transform.name;
-        if (hitName == "Ground" || hitTag == "Boundary")
+        string name = collision.transform.name;
+        if (name == "Boundary") 
         {
-            isFlyingUp = true;
+            if(isFlyingVertical)
+            {
+                if (isFlyingUp == true)
+                {
+                    isFlyingUp = false;
+                }
+                else
+                {
+                    isFlyingUp = true;
+                }
+            }
+            else if(isFlyingHorizontal)
+            {
+                if (isFlyingLeft == true)
+                {
+                    isFlyingLeft = false;
+                    _spriteRender.flipX = true;
+                }
+                else
+                {
+                    isFlyingLeft = true;
+                    _spriteRender.flipX = false;
+                }
+            }
         }
     }
 

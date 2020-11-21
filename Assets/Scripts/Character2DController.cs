@@ -127,7 +127,7 @@ public class Character2DController : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         string hitTag = collision.transform.tag;
-        if (hitTag == "Trap" || hitTag == "Enemy" || hitTag == "Boundary" && canBeHit)
+        if ((hitTag == "Trap" || hitTag == "Enemy") && canBeHit)
         {
             canBeHit = false;
         }

@@ -101,6 +101,10 @@ public class UIManager : MonoBehaviour
         soundManager.PlaySound("buttonClick");
         soundManager.PlaySound(clipName);
         SceneManager.LoadScene(sceneNum);
+        if (sceneNum == 1 || sceneNum == 0) 
+        {
+            playerManager.player.resetLives();
+        }
     }
 
     public void activateCanvas(int canvasNum)
@@ -201,7 +205,7 @@ public class UIManager : MonoBehaviour
 
     public void updateHUD(int index)
     {
-        level_info_text.text = index.ToString() + "/3";
+        level_info_text.text = "Level " + index.ToString() + "/3";
         lives_left.text = "X " + playerManager.player.getLives().ToString();
     }
 
